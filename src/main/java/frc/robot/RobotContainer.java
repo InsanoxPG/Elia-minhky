@@ -9,6 +9,8 @@ import frc.robot.commands.Autos;
 import frc.robot.commands.ExampleCommand;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.swerveSubsystem;
+import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.simulation.RoboRioSim;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -27,6 +29,9 @@ public class RobotContainer {
 
   private final CommandXboxController controller = new CommandXboxController(OperatorConstants.controllerPort);
 
+  private final GenericHID keyboardController = new GenericHID(1);
+
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
     // Configure the trigger bindings
@@ -44,5 +49,6 @@ public class RobotContainer {
    */
   private void configureBindings() {
     swerve.setDefaultCommand(swerve.drive(() -> controller.getRightX(), () -> controller.getRightY(), () -> controller.getLeftX()));
+    swerve.setDefaultCommand(swerve.drive(() -> keyboardController.getRawAxis(0), () -> keyboardController.getRawAxis(1), () -> keyboardController.getRawAxis(2)));
   }
 }
