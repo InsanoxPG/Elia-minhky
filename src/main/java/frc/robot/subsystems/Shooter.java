@@ -24,8 +24,11 @@ public class Shooter extends SubsystemBase {
     public Shooter() {
         this.voltageController = new VoltageOut(0); // rotations per second
         this.shooterMotor = new TalonFX(62); // id might be wrong
+        TalonFXConfiguration config = new TalonFXConfiguration();
+        config.CurrentLimits.StatorCurrentLimitEnable = false;
+        config.CurrentLimits.SupplyCurrentLimitEnable = false;
 
-        this.shooterMotor.getConfigurator().apply(new TalonFXConfiguration());
+        this.shooterMotor.getConfigurator().apply(config);
     }
 
     public void shoot(double v) {
@@ -37,7 +40,7 @@ public class Shooter extends SubsystemBase {
     public Command basicShoot(BooleanSupplier a_pressed) {
         DogLog.log("a button pressed?", a_pressed.getAsBoolean());
         return Commands.run(() -> {
-            shoot(1);
+            shoot(5);
         }, this);
     }
 
